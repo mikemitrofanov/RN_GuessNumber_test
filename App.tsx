@@ -1,16 +1,25 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { StyleSheet, ImageBackground, SafeAreaView, Platform, StatusBar } from 'react-native';
 import {useState} from "react";
+import AppLoading from "expo-app-loading";
 
 import StartGameScreen from "./screens/StartGame";
 import GameScreen from "./screens/Game";
+import GameOverScreen from "./screens/GameOver";
+import {useFonts} from "expo-font";
 
 export default function App() {
   const [value, setValue] = useState(null);
+  const [finished, setFinished] = useState(false);
+  
+  // const [loaded] = useFonts({});
+  // if (!loaded) return <AppLoading />;
+  
   const numberPicked = v => setValue(v);
   
   let screen = <StartGameScreen onStart={numberPicked}/>;
-  if (value) screen = <GameScreen />
+  if (value && !finished) screen = <GameScreen initial={value} finish={() => setFinished(true)}/>
+  else if (finished) screen = <GameOverScreen />
   
   return (
     <LinearGradient
