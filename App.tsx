@@ -10,16 +10,26 @@ import {useFonts} from "expo-font";
 
 export default function App() {
   const [value, setValue] = useState(null);
+  const [rounds, setRounds] = useState(0);
   const [finished, setFinished] = useState(false);
   
   // const [loaded] = useFonts({});
   // if (!loaded) return <AppLoading />;
   
+  const restart = () => {
+    setValue(null);
+    setFinished(false);
+    setRounds(0);
+  }
+  
   const numberPicked = v => setValue(v);
   
   let screen = <StartGameScreen onStart={numberPicked}/>;
-  if (value && !finished) screen = <GameScreen initial={value} finish={() => setFinished(true)}/>
-  else if (finished) screen = <GameOverScreen />
+  if (value && !finished) screen = <GameScreen initial={value} finish={(rounds) => {
+    setRounds(rounds);
+    setFinished(true)
+  }}/>
+  else if (finished) screen = <GameOverScreen roundsNumber={rounds} restart={restart}/>
   
   return (
     <LinearGradient
