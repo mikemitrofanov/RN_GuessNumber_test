@@ -1,7 +1,8 @@
 import { LinearGradient } from "expo-linear-gradient";
-import { StyleSheet, ImageBackground, SafeAreaView, Platform, StatusBar } from 'react-native';
+import { StyleSheet, ImageBackground, SafeAreaView, Platform } from 'react-native';
 import {useState} from "react";
 import AppLoading from "expo-app-loading";
+import { StatusBar } from 'expo-status-bar';
 
 import StartGameScreen from "./screens/StartGame";
 import GameScreen from "./screens/Game";
@@ -32,21 +33,24 @@ export default function App() {
   else if (finished) screen = <GameOverScreen roundsNumber={rounds} restart={restart}/>
   
   return (
-    <LinearGradient
-      style={styles.container}
-      colors={['#280216', '#ddb52f']}
-    >
-      <ImageBackground
-        source={require('./assets/images/bg.jpg')}
-        resizeMode={'cover'}
+    <>
+      <StatusBar style='light'/>
+      <LinearGradient
         style={styles.container}
-        imageStyle={styles.backgroundImageStyle}
+        colors={['#280216', '#ddb52f']}
       >
-        <SafeAreaView style={styles.safeArea}>
-          {screen}
-        </SafeAreaView>
-      </ImageBackground>
-    </LinearGradient>
+        <ImageBackground
+          source={require('./assets/images/bg.jpg')}
+          resizeMode={'cover'}
+          style={styles.container}
+          imageStyle={styles.backgroundImageStyle}
+        >
+          <SafeAreaView style={styles.safeArea}>
+            {screen}
+          </SafeAreaView>
+        </ImageBackground>
+      </LinearGradient>
+    </>
   );
 }
 
